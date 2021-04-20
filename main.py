@@ -75,22 +75,28 @@ class SpaceGame(GameApp):
     def bomb(self):
         if self.bomb_power == BOMB_FULL_POWER:
             self.bomb_power = 0
+            self.bomb_destroy()
+            self.oval()
+            self.keep()
 
-            self.bomb_canvas_id = self.canvas.create_oval(
-                self.ship.x - BOMB_RADIUS,
-                self.ship.y - BOMB_RADIUS,
-                self.ship.x + BOMB_RADIUS,
-                self.ship.y + BOMB_RADIUS
-            )
-
-            self.after(200, lambda: self.canvas.delete(self.bomb_canvas_id))
-
-            for e in self.enemies:
-                if self.ship.distance_to(e) <= BOMB_RADIUS:
-                    e.to_be_deleted = True
+        # self.after(200, lambda: self.canvas.delete(self.bomb_canvas_id)) # BEST HIDE
 
             self.update_bomb_power_text()
 
+    def keep(self):
+        self.after(200, lambda: self.canvas.delete(self.bomb_canvas_id))  # HIDE
+
+    def oval(self):
+        self.bomb_canvas_id = self.canvas.create_oval(
+            self.ship.x - BOMB_RADIUS,
+            self.ship.y - BOMB_RADIUS,
+            self.ship.x + BOMB_RADIUS,
+            self.ship.y + BOMB_RADIUS)
+
+    def bomb_destroy(self):
+        for enemy in self.enemies:
+            if BOMB_RADIUS > self.ship.distance_to(enemy):
+                enemy.to_be_deleted = True
 
 
     # def update_score_text(self):

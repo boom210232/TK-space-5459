@@ -9,7 +9,7 @@ from consts import *
 from elements import Ship, Bullet, Enemy
 from utils import random_edge_position, normalize_vector, direction_to_dxdy, vector_len, distance
 
-from abc import ABC , abstractmethod
+from abc import ABC, abstractmethod
 
 
 class SpaceGame(GameApp):
@@ -34,6 +34,21 @@ class SpaceGame(GameApp):
 
         self.enemies = []
         self.bullets = []
+        self.enemy_creation_strategies = [
+            (0.2, StarEnemyGenerationStrategy()),
+            (1.0, EdgeEnemyGenerationStrategy())
+        ]
+
+    def create_enemies(self):
+        p = random()
+
+        for prob, strategy in self.enemy_creation_strategies:
+            if p < prob:
+                enemies = strategy.generate(self, self.ship)
+                break
+
+        for e in enemies:
+            self.add_enemy(e)
 
     def add_enemy(self, enemy):
         self.enemies.append(enemy)
@@ -49,9 +64,9 @@ class SpaceGame(GameApp):
             self.bomb_power = 0
 
             self.bomb_canvas_id = self.canvas.create_oval(
-                self.ship.x - BOMB_RADIUS, 
+                self.ship.x - BOMB_RADIUS,
                 self.ship.y - BOMB_RADIUS,
-                self.ship.x + BOMB_RADIUS, 
+                self.ship.x + BOMB_RADIUS,
                 self.ship.y + BOMB_RADIUS
             )
 
@@ -184,6 +199,7 @@ class EnemyGenerationStrategy(ABC):
     def generate(self, space_game, ship):
         pass
 
+
 class StarEnemyGenerationStrategy(EnemyGenerationStrategy):
     def generate(self, space_game, ship):
         ####
@@ -204,6 +220,7 @@ class StarEnemyGenerationStrategy(EnemyGenerationStrategy):
 
         return enemies
 
+
 class EdgeEnemyGenerationStrategy(EnemyGenerationStrategy):
     def generate(self, space_game, ship):
         ####
@@ -221,7 +238,7 @@ class EdgeEnemyGenerationStrategy(EnemyGenerationStrategy):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Space Fighter")
- 
+
     # do not allow window resizing
     root.resizable(False, False)
     app = SpaceGame(root, CANVAS_WIDTH, CANVAS_HEIGHT, UPDATE_DELAY)

@@ -40,6 +40,15 @@ class SpaceGame(GameApp):
             (1.0, EdgeEnemyGenerationStrategy())
         ]
 
+        self.init_key_handlers()
+
+    def init_key_handlers(self):
+        key_pressed_handler = ShipMovementKeyPressedHandler(self, self.ship)
+        key_pressed_handler = BombKeyPressedHandler(self, self.ship, key_pressed_handler)
+        self.key_pressed_handler = key_pressed_handler
+
+        key_released_handler = ShipMovementKeyReleasedHandler(self, self.ship)
+        self.key_released_handler = key_released_handler
 
 
     def create_enemies(self):
@@ -180,21 +189,21 @@ class SpaceGame(GameApp):
         self.update_score()
         self.update_bomb_power()
 
-    def on_key_pressed(self, event):
-        if event.keysym == 'Left':
-            self.ship.start_turn('LEFT')
-        elif event.keysym == 'Right':
-            self.ship.start_turn('RIGHT')
-        elif event.char == ' ':
-            self.ship.fire()
-        elif event.char.upper() == 'Z':
-            self.bomb()
-
-    def on_key_released(self, event):
-        if event.keysym == 'Left':
-            self.ship.stop_turn('LEFT')
-        elif event.keysym == 'Right':
-            self.ship.stop_turn('RIGHT')
+    # def on_key_pressed(self, event):
+    #     if event.keysym == 'Left':
+    #         self.ship.start_turn('LEFT')
+    #     elif event.keysym == 'Right':
+    #         self.ship.start_turn('RIGHT')
+    #     elif event.char == ' ':
+    #         self.ship.fire()
+    #     elif event.char.upper() == 'Z':
+    #         self.bomb()
+    #
+    # def on_key_released(self, event):
+    #     if event.keysym == 'Left':
+    #         self.ship.stop_turn('LEFT')
+    #     elif event.keysym == 'Right':
+    #         self.ship.stop_turn('RIGHT')
 
 
 class EnemyGenerationStrategy(ABC):
@@ -258,25 +267,27 @@ class ShipMovementKeyPressedHandler(GameKeyboardHandler):
     def handle(self, event):
         # TODO:
         #   - extract the code from on_key_pressed
-        if event.keysym == 'Left':
-            self.ship.start_turn('LEFT')
-        elif event.keysym == 'Right':
-            self.ship.start_turn('RIGHT')
-        elif event.char == ' ':
-            self.ship.fire()
-        elif event.char.upper() == 'Z':
-            self.bomb()
+
+            if event.keysym == 'Left':
+                self.ship.start_turn('LEFT')
+            elif event.keysym == 'Right':
+                self.ship.start_turn('RIGHT')
+            elif event.char == ' ':
+                self.ship.fire()
+            elif event.char.upper() == 'Z':
+                self.bomb()
 
 
 class ShipMovementKeyReleasedHandler(GameKeyboardHandler):
     def handle(self, event):
         # TODO:
         #   - extract the code from on_key_released
+
+
         if event.keysym == 'Left':
             self.ship.stop_turn('LEFT')
         elif event.keysym == 'Right':
             self.ship.stop_turn('RIGHT')
-
 
 
 if __name__ == "__main__":

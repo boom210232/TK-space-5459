@@ -124,6 +124,13 @@ class GameApp(ttk.Frame):
         self.canvas.grid(sticky="news")
 
 
+    def on_key_pressed(self, event):
+        self.key_pressed_handler.handle(event)
+
+    def on_key_released(self, event):
+        self.key_released_handler.handle(event)
+
+
     def stop_animation(self):
         self.is_stopped = True
 

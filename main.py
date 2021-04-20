@@ -3,7 +3,8 @@ from random import randint, random
 
 import tkinter as tk
 
-from gamelib import Sprite, GameApp, Text
+# from gamelib import Sprite, GameApp, Text
+from gamelib import Sprite, GameApp, Text, KeyboardHandler
 
 from consts import *
 from elements import Ship, Bullet, Enemy
@@ -235,6 +236,24 @@ class EdgeEnemyGenerationStrategy(EnemyGenerationStrategy):
 
         enemy = Enemy(self, x, y, vx, vy)
         return [enemy]
+
+
+class GameKeyboardHandler(KeyboardHandler):
+    def __init__(self, game_app, ship, successor=None):
+        super().__init__(successor)
+        self.game_app = game_app
+        self.ship = ship
+
+
+class BombKeyPressedHandler(GameKeyboardHandler):
+    def handle(self, event):
+        print('here')
+        if event.char.upper() == 'Z':
+            self.game_app.bomb()
+        else:                                     #
+            super().handle(event)                 # It is very important to forward the request
+
+
 
 
 

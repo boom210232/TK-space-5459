@@ -254,8 +254,28 @@ class BombKeyPressedHandler(GameKeyboardHandler):
             super().handle(event)                 # It is very important to forward the request
 
 
+class ShipMovementKeyPressedHandler(GameKeyboardHandler):
+    def handle(self, event):
+        # TODO:
+        #   - extract the code from on_key_pressed
+        if event.keysym == 'Left':
+            self.ship.start_turn('LEFT')
+        elif event.keysym == 'Right':
+            self.ship.start_turn('RIGHT')
+        elif event.char == ' ':
+            self.ship.fire()
+        elif event.char.upper() == 'Z':
+            self.bomb()
 
 
+class ShipMovementKeyReleasedHandler(GameKeyboardHandler):
+    def handle(self, event):
+        # TODO:
+        #   - extract the code from on_key_released
+        if event.keysym == 'Left':
+            self.ship.stop_turn('LEFT')
+        elif event.keysym == 'Right':
+            self.ship.stop_turn('RIGHT')
 
 
 

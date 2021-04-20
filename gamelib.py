@@ -108,6 +108,8 @@ class GameApp(ttk.Frame):
         self.create_canvas()
 
         self.elements = []
+        self.key_pressed_handler = KeyboardHandler()
+        self.key_released_handler = KeyboardHandler()
         self.init_game()
 
         self.is_stopped = False
@@ -165,3 +167,12 @@ class GameApp(ttk.Frame):
 
     def on_key_released(self, event):
         pass
+
+
+class KeyboardHandler:
+    def __init__(self, successor=None):
+        self.successor = successor
+
+    def handle(self, event):
+        if self.successor:
+            self.successor.handle(event)

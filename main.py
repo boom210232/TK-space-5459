@@ -39,6 +39,8 @@ class SpaceGame(GameApp):
             (1.0, EdgeEnemyGenerationStrategy())
         ]
 
+
+
     def create_enemies(self):
         p = random()
 
@@ -233,6 +235,9 @@ class EdgeEnemyGenerationStrategy(EnemyGenerationStrategy):
 
         enemy = Enemy(self, x, y, vx, vy)
         return [enemy]
+
+
+
 
 
 if __name__ == "__main__":

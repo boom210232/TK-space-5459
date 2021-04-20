@@ -189,21 +189,24 @@ class SpaceGame(GameApp):
         self.update_score()
         self.update_bomb_power()
 
-    # def on_key_pressed(self, event):
-    #     if event.keysym == 'Left':
-    #         self.ship.start_turn('LEFT')
-    #     elif event.keysym == 'Right':
-    #         self.ship.start_turn('RIGHT')
-    #     elif event.char == ' ':
-    #         self.ship.fire()
-    #     elif event.char.upper() == 'Z':
-    #         self.bomb()
-    #
-    # def on_key_released(self, event):
-    #     if event.keysym == 'Left':
-    #         self.ship.stop_turn('LEFT')
-    #     elif event.keysym == 'Right':
-    #         self.ship.stop_turn('RIGHT')
+    # Temporary REMOVE because It has bug in code and I'm not sure how to fix
+    # Maybe have something wrong when I watch step on theory.cpe
+
+    def on_key_pressed(self, event):
+        if event.keysym == 'Left':
+            self.ship.start_turn('LEFT')
+        elif event.keysym == 'Right':
+            self.ship.start_turn('RIGHT')
+        elif event.char == ' ':
+            self.ship.fire()
+        elif event.char.upper() == 'Z':
+            self.bomb()
+
+    def on_key_released(self, event):
+        if event.keysym == 'Left':
+            self.ship.stop_turn('LEFT')
+        elif event.keysym == 'Right':
+            self.ship.stop_turn('RIGHT')
 
 
 class EnemyGenerationStrategy(ABC):
